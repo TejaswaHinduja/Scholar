@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { FeedCard } from "@/components/ui/feed-posts";
 import { ProfileCard } from "@/components/ui/profilecard";
 
 
@@ -11,7 +12,7 @@ return <div className="flex gap-8 p-8">
     </div>
     {/*main feed*/}
     <div>
-        
+        <FeedCard/>
     </div>
 
 </div>
