@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { FeedCard } from "@/components/ui/feed-posts";
+import { Feed } from "@/components/ui/feed";
 import { ProfileCard } from "@/components/ui/profilecard";
 
 
-export default function Feed(){
+export default function MainFeed(){
 
 return <div className="flex gap-8 p-8">
     {/*leftside-profile view*/}
@@ -11,8 +11,8 @@ return <div className="flex gap-8 p-8">
     <ProfileCard />
     </div>
     {/*main feed*/}
-    <div>
-        <FeedCard/>
+    <div className="w-80">
+        <Feed/>
     </div>
 
 </div>

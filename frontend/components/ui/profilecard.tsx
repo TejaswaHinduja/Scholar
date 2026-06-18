@@ -1,17 +1,10 @@
   import { Badge } from "@/components/ui/badge"
   import { Button } from "@/components/ui/button"
-  import {
-    Card,
-    CardAction,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
+  import {Card,CardAction,CardDescription,CardFooter,CardHeader,CardTitle,} from "@/components/ui/card"
 
   export function ProfileCard() {
     return (
-      <Card className="relative  w-full max-w-sm pt-0 ">
+      <Card className="relative w-full max-w-sm pt-0 ">
         <div className="absolute aspect-round " />
         <img
           src="https://avatar.vercel.sh/shadcn1"
