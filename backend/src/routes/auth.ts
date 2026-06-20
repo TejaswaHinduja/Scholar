@@ -5,7 +5,7 @@ import {prisma} from "../db.js"
 export const authrouter=Router()
 
 authrouter.post("/signup",async (req,res)=>{
-    const {name,email,password}=req.body
+    try{const {name,email,password}=req.body
     if(!name || !email || !password){
         return res.status(403).json({message:"Please fill all the fields"})
     }
@@ -19,10 +19,16 @@ authrouter.post("/signup",async (req,res)=>{
     })
     genToken(user.id,res)
     
-    res.json({message:"Signed Up",user:{name,email}}).status(200)
+    res.status(200).json({message:"Signed Up",user:{name,email}})
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:"error during sign up , try again"})
+    }
 })
 authrouter.post("/login",async(req,res)=>{
-    const {email,password}=req.body
+    
+    try{const {email,password}=req.body
     if(!email || !password){
         return res.status(403).json({message:"fill all"})
     }
@@ -31,10 +37,26 @@ authrouter.post("/login",async(req,res)=>{
             email
         },
         select:{
+            id:true,
             password:true
         }
     })
-    if(user){
-        const checkpass=await bcrypt.compare(password,user.password)
+    if(!user){
+        return res.status(403).json({message:"Please sign up"})
+    }
+    const checkpass=await bcrypt.compare(password,user.password)
+    if(!checkpass){
+        return res.status(403).json({message:"incorrect creds"})
+    }
+    genToken(user.id,res)
+
+    res.status(200).json({
+        message:"signed up",
+        email:email
+    })
+}
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:"error during login, please try again"})
     }
 })
