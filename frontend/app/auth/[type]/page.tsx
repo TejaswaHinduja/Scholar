@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import {useParams,useRouter} from "next/navigation"
 import { useState } from "react";
 import {useForm,Controller} from "react-hook-form"
+import { AuthCharacters } from "@/components/ui/authchars";
 
 export default function AuthPage(){
     type formvalue={
@@ -27,14 +28,19 @@ export default function AuthPage(){
         console.log(values)
     }
     return (
-        <div>
+        <div className="flex grid-cols-2">
+            <div> 
+                <AuthCharacters/>
+            </div>
+            <div>
+
             <form className="flex flex-col w-full justify-center items-center"onSubmit={handleSubmit(Submit)}>
-            <div className="max-w-3xl my-4 gap-4">
+            
             <Input {...register("name")}placeholder="Name" />
             <Input className="my-4" {...register("email")}placeholder="email" />
             <Button className="align-center items-center"type="submit">Submit</Button>
-            </div>
             </form>
+            </div>
             
         </div>
     )
