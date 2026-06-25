@@ -3,18 +3,23 @@ import { Feed } from "@/components/ui/feed";
 import { ProfileCard } from "@/components/ui/profilecard";
 
 
-export default function MainFeed(){
+export default function MainFeed() {
+  return (
+    <div className="grid grid-cols-2 gap-20 p-6">
+      {/* left sidebar — fixed width */}
+      <div className="mt-4 mx-4">
+        <ProfileCard />
+      </div>
 
-return <div className="flex gap-8 p-8">
-    {/*leftside-profile view*/}
-    <div className="w-80 my-15">
-    <ProfileCard />
+      {/* main feed — grows to fill remaining space */}
+      <div>
+        <Feed />
+      </div>
+
+      {/* right panel — fixed width */}
+      <div>
+        {/* trending topics, who to follow */}
+      </div>
     </div>
-    {/*main feed*/}
-    <div className="w-80">
-        <Feed/>
-    </div>
-
-</div>
-
+  )
 }
