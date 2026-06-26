@@ -1,8 +1,13 @@
 import  jwt  from "jsonwebtoken";
 import { Response } from "express";
+import dotenv from "dotenv"
+dotenv.config()
 
-const secret="123"
 export function genToken(userId:string,res:Response){
+    const secret=process.env.JWT_SECRET
+    if(!secret){
+        return res.status(500)
+    }
     const token=jwt.sign({userId},secret,{
         expiresIn:"7d"
     })

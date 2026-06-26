@@ -5,7 +5,7 @@ import { ProfileCard } from "@/components/ui/profilecard";
 
 export default function MainFeed() {
   return (
-    <div className="grid grid-cols-2 gap-20 p-6">
+    <div className="grid grid-cols-3 gap-20 p-6">
       {/* left sidebar — fixed width */}
       <div className="mt-4 mx-4">
         <ProfileCard />
