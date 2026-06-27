@@ -1,4 +1,5 @@
 generator client {
+  
   provider = "prisma-client-js"
 }
 
@@ -7,18 +8,35 @@ datasource db {
 }
 
 model User {
-  id         String  @id @unique @default(cuid())
+  id         String  @id @default(cuid())
   name       String
   email      String  @unique
   profilepic String?
   bio        String?
+  school     String?
+  location   String?
   password   String
-  posts      Post?
+  posts      Post[]
+  tuitions   Tuitions[]
+}
+model Tuitions{
+  id String @id  @default(cuid())
+  userId String
+  name String
+  description String
+  profilepic String?
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  @@index([userId])
 }
 
 model Post {
   id      String @id @default(cuid())
+  userId  String
   title   String
   content String
-  user    User   @relation(fields: [id], references: [id])
+  image   String?
+  createdAt DateTime @default(now())
+  user    User   @relation(fields: [userId], references: [id],onDelete: Cascade)
+  @@index([userId])
 }
