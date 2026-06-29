@@ -14,7 +14,9 @@ mainrouter.get("/posts", Protect , async(req:AuthRequest , res)=>{
     }
     const posts=await prisma.post.findMany({
         where:{
-            userId:{not : usrId}
+            userId:{
+                not : usrId
+            }
         }
     })
     if(!posts){
@@ -27,7 +29,7 @@ catch(e){
 }
 })
 
-mainrouter.get("/user/:id",Protect,async(req:AuthRequest,res)=>{
+mainrouter.get("/user",Protect,async(req:AuthRequest,res)=>{
     try{
     
     const userId=req.user?.id
@@ -59,13 +61,10 @@ mainrouter.get("/tuition",Protect,async(req , res)=>{
     if(!userId){
         return
     }
-    const usr=await prisma.user.findUnique({
+    const usr=await prisma.tuitions.findUnique({
         where:{
             id:userId
         },
-        omit:{
-            password:true
-        }
     })
     if(!usr){
         return
