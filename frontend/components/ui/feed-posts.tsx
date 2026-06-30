@@ -4,25 +4,14 @@ import { Button } from "./button"
 import { Input } from "./input";
 import {Card,CardAction,CardContent,CardDescription,CardFooter,CardHeader,CardTitle,} from "@/components/ui/card"
 import { useEffect, useState } from "react";
-export function FeedPosts(){
-    const[name,setName]=useState('')
-    const[content,setContent]=useState('')
-    const[title,setTitle]=useState()
-    const[posts,setPosts]=useState()
-    async function getPosts(){
-          const res=await fetch("http://localhost:5000/api/main/posts",{
-            method:"GET",
-            headers:{'Content-Type':'application.json'},
-          })
-          if(!res){
-          }
-          const data=await res.json()
-          setContent(data.content)
-          setTitle(data.title)
-    }
-    useEffect(()=>{
-      getPosts()
-    },[])
+
+type feedPosts={
+  title:string,
+  content:string,
+  username:string
+}
+export function FeedPosts({title,content,username}:feedPosts){
+    
     return <div>
             <Card className="w-full max-w-sm my-3">
             <div className="flex" >
@@ -32,7 +21,7 @@ export function FeedPosts(){
                         className="relative aspect-round rounded-full h-10 w-10 ml-6 my-3 object-cover brightness-60 grayscale dark:brightness-40 "
                         />
       <CardHeader>
-        <CardTitle >Profile Name</CardTitle>
+        <CardTitle >{username}</CardTitle>
         <CardDescription>
           {title}
         </CardDescription>

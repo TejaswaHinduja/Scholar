@@ -69,3 +69,33 @@ catch(e){
     return res.status(500).json({message:"internal error"})
 }
 })
+
+mainrouter.post("/createPost",Protect,async(req:AuthRequest,res)=>{
+    
+    try{
+    const userId=req.user?.id
+    const {title,content}=req.body
+    if(!userId || !title || !content){
+        return
+    }
+    
+    const post=await prisma.post.create({
+        data:{
+            userId,
+            title,
+            content,
+        },
+        select:{
+            title:true,
+            content:true,
+            user:true
+        }
+    })
+    if(post){
+        res.status(200).json({message:"Post created",post})
+    }
+}
+catch(e){
+    return res.status(500).json({message:"try again"})
+}
+})

@@ -1,16 +1,27 @@
 "use client"
-
-
 import { Button } from "@/components/ui/button";
 import { Feed } from "@/components/ui/feed";
 import { ProfileCard } from "@/components/ui/profilecard";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 
 export default function MainFeed() {
   
-  const[profile,setProfile]=useState([])
-
+const[profile,setProfile]=useState([])
+const[posts,setPosts]=useState([])
+    async function getPosts(){
+          const res=await fetch("http://localhost:5000/api/main/posts",{
+            method:"GET",
+            headers:{'Content-Type':'application/json'},
+          })
+          if(!res){
+          }
+          const data=await res.json()
+          setPosts(data)
+    }
+    useEffect(()=>{
+      getPosts()
+    },[])
   
 
   return (
@@ -23,7 +34,7 @@ export default function MainFeed() {
       {/* main feed — grows to fill remaining space */}
       <div>
         
-        <Feed />
+        <Feed posts={posts}/>
       </div>
 
       {/* right panel — fixed width */}
