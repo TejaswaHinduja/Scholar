@@ -9,6 +9,6 @@ app.use(cors({
     origin:"http://localhost:3000"
 }))
 
-app.use("/auth",authrouter)
+app.use("/api",authrouter)
 app.use("/api/main",mainrouter)
 app.listen(5000)

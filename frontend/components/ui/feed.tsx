@@ -1,3 +1,4 @@
+"use client"
 import { Badge } from "lucide-react";
 import { Button } from "./button"
 import { Input } from "./input";

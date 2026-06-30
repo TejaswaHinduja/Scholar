@@ -1,9 +1,28 @@
+"use client"
 import { Badge } from "lucide-react";
 import { Button } from "./button"
 import { Input } from "./input";
 import {Card,CardAction,CardContent,CardDescription,CardFooter,CardHeader,CardTitle,} from "@/components/ui/card"
-
+import { useEffect, useState } from "react";
 export function FeedPosts(){
+    const[name,setName]=useState('')
+    const[content,setContent]=useState('')
+    const[title,setTitle]=useState()
+    const[posts,setPosts]=useState()
+    async function getPosts(){
+          const res=await fetch("http://localhost:5000/api/main/posts",{
+            method:"GET",
+            headers:{'Content-Type':'application.json'},
+          })
+          if(!res){
+          }
+          const data=await res.json()
+          setContent(data.content)
+          setTitle(data.title)
+    }
+    useEffect(()=>{
+      getPosts()
+    },[])
     return <div>
             <Card className="w-full max-w-sm my-3">
             <div className="flex" >
@@ -15,7 +34,7 @@ export function FeedPosts(){
       <CardHeader>
         <CardTitle >Profile Name</CardTitle>
         <CardDescription>
-          Profile Bio
+          {title}
         </CardDescription>
       </CardHeader>
       </div>
@@ -23,7 +42,7 @@ export function FeedPosts(){
     
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
-              Content
+              {content}
             </div>
          </div>
       

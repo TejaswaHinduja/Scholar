@@ -55,21 +55,15 @@ catch(e){
 }
 })
 
-mainrouter.get("/tuition",Protect,async(req , res)=>{
+mainrouter.get("/tuition",Protect,async(req:AuthRequest , res)=>{
     try{
-    const userId=req.body.userId
+    const userId=req.user?.id
     if(!userId){
         return
     }
-    const usr=await prisma.tuitions.findUnique({
-        where:{
-            id:userId
-        },
-    })
-    if(!usr){
-        return
-    }
-    return res.status(200).json({usr})
+    const ttn=await prisma.tuitions.findMany()
+    
+    return res.status(200).json({ttn})
 }
 catch(e){
     return res.status(500).json({message:"internal error"})
