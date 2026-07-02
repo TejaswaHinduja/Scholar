@@ -12,9 +12,11 @@ const[posts,setPosts]=useState([])
     async function getPosts(){
           const res=await fetch("http://localhost:5000/api/main/posts",{
             method:"GET",
+            credentials:"include",
             headers:{'Content-Type':'application/json'},
           })
           if(!res){
+            throw new Error("Something went wrong")
           }
           const data=await res.json()
           setPosts(data)

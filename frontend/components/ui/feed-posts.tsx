@@ -62,13 +62,14 @@ export function FeedCard() {
   async function createPost(formdata:FormValues){
     const res=await fetch("http://localhost:5000/api/main/createpost",{
       method:"POST",
+      credentials:"include",
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(formdata)
     })
     if(!res.ok){
-      return
+      throw new Error("Failed to create post")
     }
-    
+
   }
   return (
     <Card className="w-full">
