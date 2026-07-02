@@ -4,6 +4,7 @@ import { Button } from "./button"
 import { Input } from "./input";
 import {Card,CardAction,CardContent,CardDescription,CardFooter,CardHeader,CardTitle,} from "@/components/ui/card"
 import { useEffect, useState } from "react";
+import { useForm } from 'react-hook-form'
 
 type feedPosts={
   title:string,
@@ -51,7 +52,24 @@ export function FeedPosts({title,content,username}:feedPosts){
     </Card>
     </div>
 }
+type FormValues={
+  title:string,
+  content:string
+}
 export function FeedCard() {
+  const form=useForm<FormValues>()
+  const { register, handleSubmit, formState: { errors } } = form
+  async function createPost(formdata:FormValues){
+    const res=await fetch("http://localhost:5000/api/main/createpost",{
+      method:"POST",
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(formdata)
+    })
+    if(!res.ok){
+      return
+    }
+    
+  }
   return (
     <Card className="w-full">
       <CardHeader>
@@ -59,15 +77,21 @@ export function FeedCard() {
         
       </CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit(createPost)}>
           <div className="flex">
             <div className="w-full">
+              <Input 
+              id="title"
+              {...register("title",{required:"Input is required"})}
+              placeholder="Title"
+              />
               <Input
-                id="email"
+                id="content"
+                {...register("content",{required:"content is required"})}
                 type="text"
                 placeholder="What's happening ?"
-                required
               />
+              <Button type="submit">Submit</Button>
             </div>
           </div>
         </form>

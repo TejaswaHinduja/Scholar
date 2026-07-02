@@ -70,7 +70,7 @@ catch(e){
 }
 })
 
-mainrouter.post("/createPost",Protect,async(req:AuthRequest,res)=>{
+mainrouter.post("/createpost",Protect,async(req:AuthRequest,res)=>{
     
     try{
     const userId=req.user?.id
