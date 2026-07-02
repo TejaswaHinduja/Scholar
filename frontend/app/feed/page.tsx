@@ -19,7 +19,7 @@ const[posts,setPosts]=useState([])
             throw new Error("Something went wrong")
           }
           const data=await res.json()
-          setPosts(data)
+          setPosts(data.posts)
     }
     useEffect(()=>{
       getPosts()

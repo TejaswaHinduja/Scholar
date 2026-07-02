@@ -10,7 +10,7 @@ mainrouter.get("/posts", Protect , async(req:AuthRequest , res)=>{
     try{
     const usrId=req.user?.id
     if(!usrId){
-        return
+        return res.status(403).json({message:"please sign up/login"})
     }
     const posts=await prisma.post.findMany({
         where:{
@@ -19,9 +19,7 @@ mainrouter.get("/posts", Protect , async(req:AuthRequest , res)=>{
             }
         }
     })
-    if(!posts){
-        return
-    }
+    
     return res.status(200).json({posts})
 }
 catch(e){
@@ -76,7 +74,7 @@ mainrouter.post("/createpost",Protect,async(req:AuthRequest,res)=>{
     const userId=req.user?.id
     const {title,content}=req.body
     if(!userId || !title || !content){
-        return
+        return res.status(403).json({message:"Try again"})
     }
     
     const post=await prisma.post.create({

@@ -40,6 +40,6 @@ export async function Protect(req:AuthRequest,res:Response,next:NextFunction){
 
 }
     catch(e){
-        return res.status(500)
+        return res.status(500).json({message:"something went wrong"})
     }
 }
