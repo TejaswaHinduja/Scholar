@@ -16,6 +16,13 @@ mainrouter.get("/posts", Protect , async(req:AuthRequest , res)=>{
         where:{
             userId:{
                 not : usrId
+            },
+            include: {
+                    user: {
+                        select: {
+                            username: true
+                        }
+                    }
             }
         }
     })
