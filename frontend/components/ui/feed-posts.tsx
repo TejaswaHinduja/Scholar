@@ -10,6 +10,7 @@ type feedPosts={
   title:string,
   content:string,
   username:string
+  
 }
 export function FeedPosts({title,content,username}:feedPosts){
     

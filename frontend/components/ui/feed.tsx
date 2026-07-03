@@ -9,7 +9,9 @@ import { FeedPosts } from "./feed-posts";
 type Post={
     title:string,
     content:string,
-    username?:string 
+    user:{
+        name?:string
+    }
 }
 type FeedProps={
     posts:Post[]
@@ -24,7 +26,7 @@ export function Feed({posts}:FeedProps){
                 <FeedPosts key={i} 
                 title={post.title}
                 content={post.content}
-                username={post.username ?? "Unknown user"}
+                username={post.user.name ?? "Unknown user"}
                 />
             ))}
         

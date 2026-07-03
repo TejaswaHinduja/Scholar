@@ -16,20 +16,21 @@ mainrouter.get("/posts", Protect , async(req:AuthRequest , res)=>{
         where:{
             userId:{
                 not : usrId
-            },
+            }},
             include: {
                     user: {
                         select: {
-                            username: true
+                            name: true
                         }
-                    }
+                }
             }
-        }
+        
     })
     
     return res.status(200).json({posts})
 }
 catch(e){
+    console.error(e)
     return res.status(500).json({message:"internal error"})
 }
 })
@@ -93,8 +94,13 @@ mainrouter.post("/createpost",Protect,async(req:AuthRequest,res)=>{
         select:{
             title:true,
             content:true,
-            user:true
-        }
+            user:{
+                omit:{
+                    password:true
+                }
+            }
+        },
+        
     })
     if(post){
         res.status(200).json({message:"Post created",post})
