@@ -48,8 +48,8 @@ export default function ProfilePage() {
 
   return (
     <div className="w-full">
-        <div className="flex grid-cols-2">
-      <Card className=" mx-50 my-4 max-w-5xl h-140">
+        <div className="flex grid-cols-2 h-140">
+      <Card className="ml-30 my-3 w-full ">
         <CardHeader className="flex items-center justify-between">
           <CardTitle className="text-xl">My Profile</CardTitle>
           <Button variant="outline" onClick={() => setEditing(!editing)}>
@@ -89,7 +89,7 @@ export default function ProfilePage() {
           </div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="w-full ml-3">
         <CardContent>
             Followers
             Post Impressions
