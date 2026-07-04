@@ -47,9 +47,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 flex flex-col gap-6">
-      <Card className="w-full">
-        <CardHeader className="flex flex-row items-center justify-between">
+    <div className="w-full">
+        <div className="flex grid-cols-2">
+      <Card className=" mx-50 my-4 max-w-5xl h-140">
+        <CardHeader className="flex items-center justify-between">
           <CardTitle className="text-xl">My Profile</CardTitle>
           <Button variant="outline" onClick={() => setEditing(!editing)}>
             {editing ? "Save" : "Edit"}
@@ -88,7 +89,13 @@ export default function ProfilePage() {
           </div>
         </CardContent>
       </Card>
-
+      <Card>
+        <CardContent>
+            Followers
+            Post Impressions
+        </CardContent>
+      </Card>
+    </div>
       <div>
         <h2 className="text-lg font-medium mb-2">My Posts</h2>
         {myPosts.map((post, i) => (
