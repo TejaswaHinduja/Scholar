@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Feed } from "@/components/ui/feed";
 import { ProfileCard } from "@/components/ui/profilecard";
+import { TopStoriesCard, WhoToFollowCard } from "@/components/ui/right-sidebar";
 import { useState,useEffect } from "react";
 
 
@@ -40,8 +41,9 @@ const[posts,setPosts]=useState([])
       </div>
 
       {/* right panel — fixed width */}
-      <div>
-        {/* trending topics, who to follow */}
+      <div className="mt-4 mx-4 flex flex-col gap-6">
+        <TopStoriesCard />
+        <WhoToFollowCard />
       </div>
     </div>
   )

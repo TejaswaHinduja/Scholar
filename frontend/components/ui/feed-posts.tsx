@@ -15,7 +15,7 @@ type feedPosts={
 export function FeedPosts({title,content,username}:feedPosts){
     
     return <div>
-            <Card className="w-full max-w-sm my-3">
+            <Card className="w-full my-3">
             <div className="flex" >
                         <img
                         src="https://avatar.vercel.sh/shadcn1"
@@ -81,7 +81,7 @@ export function FeedCard() {
       <CardContent>
         <form onSubmit={handleSubmit(createPost)}>
           <div className="flex">
-            <div className="w-full">
+            <div className="w-full max-w-sm">
               <Input 
               id="title"
               {...register("title",{required:"Input is required"})}
