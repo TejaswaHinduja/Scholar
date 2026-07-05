@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FeedPosts } from "@/components/ui/feed-posts"
-import {ImageKitAbortError,ImageKitInvalidRequestError,ImageKitServerError,ImageKitUploadNetworkError,upload,} from "@imagekit/next";
+import { ImageUpload } from "@/lib/upload"
 
 type ProfileData = {
   name: string
@@ -46,13 +46,7 @@ export default function ProfilePage() {
   if (!form) {
     return <div className="p-6">Loading...</div>
   }
-  const upload=()=>{
-    const[progress,setProgress]=useState(0);
-    const fileinput=useRef<HTMLInputElement>(null);
-    const abortcontrol=new AbortController();
-    
-  }
-
+ 
   return (
     <div className="w-full">
         <div className="flex grid-cols-2 h-140">
@@ -69,6 +63,9 @@ export default function ProfilePage() {
             alt={form.name}
             className="h-20 w-20 rounded-full object-cover"
           />
+          {editing && (
+            <ImageUpload onUploadSuccess={(url) => handleChange("profilepic", url)} />
+          )}
 
           <div className="flex flex-col gap-1">
             <label className="text-sm text-muted-foreground">Name</label>
