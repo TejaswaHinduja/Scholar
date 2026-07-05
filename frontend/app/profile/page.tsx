@@ -1,9 +1,10 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useState,useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FeedPosts } from "@/components/ui/feed-posts"
+import {ImageKitAbortError,ImageKitInvalidRequestError,ImageKitServerError,ImageKitUploadNetworkError,upload,} from "@imagekit/next";
 
 type ProfileData = {
   name: string
@@ -44,6 +45,12 @@ export default function ProfilePage() {
 
   if (!form) {
     return <div className="p-6">Loading...</div>
+  }
+  const upload=()=>{
+    const[progress,setProgress]=useState(0);
+    const fileinput=useRef<HTMLInputElement>(null);
+    const abortcontrol=new AbortController();
+    
   }
 
   return (
