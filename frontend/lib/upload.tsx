@@ -41,7 +41,7 @@ export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
 
     const file = inp.files[0]
 
-    // Retrieve authentication parameters for the upload.
+    
     let authParams
     try {
       authParams = await authenticator()
@@ -60,8 +60,8 @@ export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
         signature,
         publicKey,
         file,
-        fileName: file.name, // Optionally set a custom file name
-        // Progress callback to update upload progress state
+        fileName: file.name, 
+        
         onProgress: (event) => {
           setProgress((event.loaded / event.total) * 100)
         },
