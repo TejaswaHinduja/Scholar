@@ -61,6 +61,29 @@ catch(e){
 }
 })
 
+mainrouter.put("/user",Protect,async(req:AuthRequest,res)=>{
+    try{
+    const userId=req.user?.id
+    if(!userId){
+        return res.status(401).json({message:"unauthorized"})
+    }
+    const {name,email,profilepic,bio,school,location}=req.body
+    const usr=await prisma.user.update({
+        where:{
+            id:userId
+        },
+        data:{name,email,profilepic,bio,school,location},
+        omit:{
+            password:true,
+        }
+    })
+    return res.status(200).json({usr})
+}
+catch(e){
+    return res.status(500).json({message:"internal error"})
+}
+})
+
 mainrouter.get("/tuition",Protect,async(req:AuthRequest , res)=>{
     try{
     const userId=req.user?.id

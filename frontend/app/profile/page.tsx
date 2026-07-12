@@ -1,10 +1,11 @@
 "use client"
-import { useEffect, useState,useRef } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FeedPosts } from "@/components/ui/feed-posts"
 import { ImageUpload } from "@/lib/upload"
+import { useForm } from "react-hook-form"
 
 type ProfileData = {
   name: string
@@ -15,91 +16,100 @@ type ProfileData = {
   location: string | null
 }
 
+const fields = [
+  { name: "name", label: "Name" },
+  { name: "email", label: "Email" },
+  { name: "bio", label: "Bio" },
+  { name: "school", label: "School" },
+  { name: "location", label: "Location" },
+] as const
+
 const myPosts = [
   { title: "How I cracked my first coding interview", content: "Practice, patience, and a lot of mock interviews.", username: "You" },
   { title: "Looking for a maths tuition partner", content: "Anyone up for weekend study sessions?", username: "You" },
 ]
 
 export default function ProfilePage() {
-  const [form, setForm] = useState<ProfileData | null>(null)
+  const { register, handleSubmit, reset, setValue, watch } = useForm<ProfileData>()
   const [editing, setEditing] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  async function getProfile() {
+  const name = watch("name")
+  const profilepic = watch("profilepic")
+
+  useEffect(() => {
+    async function getProfile() {
+      const res = await fetch("http://localhost:5000/api/main/user", {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      })
+      if (!res.ok) return
+      const data = await res.json()
+      reset(data.usr)
+      setLoading(false)
+    }
+    getProfile()
+  }, [reset])
+
+  async function onSubmit(values: ProfileData) {
     const res = await fetch("http://localhost:5000/api/main/user", {
-      method: "GET",
+      method: "PUT",
       credentials: "include",
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
     })
     if (!res.ok) return
     const data = await res.json()
-    setForm(data.usr)
+    reset(data.usr)
+    setEditing(false)
   }
 
-  useEffect(() => {
-    getProfile()
-  }, [])
-
-  function handleChange(field: keyof ProfileData, value: string) {
-    setForm((prev) => prev && { ...prev, [field]: value })
-  }
-
-  if (!form) {
+  if (loading) {
     return <div className="p-6">Loading...</div>
   }
- 
+
   return (
     <div className="w-full">
-        <div className="flex grid-cols-2 h-140">
-      <Card className="ml-30 my-3 w-full ">
-        <CardHeader className="flex items-center justify-between">
-          <CardTitle className="text-xl">My Profile</CardTitle>
-          <Button variant="outline" onClick={() => setEditing(!editing)}>
-            {editing ? "Save" : "Edit"}
-          </Button>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <img
-            src={form.profilepic || `https://avatar.vercel.sh/${form.name}`}
-            alt={form.name}
-            className="h-20 w-20 rounded-full object-cover"
-          />
-          {editing && (
-            <ImageUpload onUploadSuccess={(url) => handleChange("profilepic", url)} />
-          )}
+      <div className="flex grid-cols-2 h-140">
+        <Card className="ml-30 my-3 w-full ">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CardHeader className="flex items-center justify-between">
+              <CardTitle className="text-xl">My Profile</CardTitle>
+              {editing ? (
+                <Button type="submit">Save</Button>
+              ) : (
+                <Button type="button" variant="outline" onClick={() => setEditing(true)}>
+                  Edit
+                </Button>
+              )}
+            </CardHeader>
+            <CardContent className="flex flex-col gap-4">
+              <img
+                src={profilepic || `https://avatar.vercel.sh/${name}`}
+                alt={name}
+                className="h-20 w-20 rounded-full object-cover"
+              />
+              {editing && (
+                <ImageUpload onUploadSuccess={(url) => setValue("profilepic", url)} />
+              )}
 
-          <div className="flex flex-col gap-1">
-            <label className="text-sm text-muted-foreground">Name</label>
-            <Input value={form.name} disabled={!editing} onChange={(e) => handleChange("name", e.target.value)} />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="text-sm text-muted-foreground">Email</label>
-            <Input value={form.email} disabled={!editing} onChange={(e) => handleChange("email", e.target.value)} />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="text-sm text-muted-foreground">Bio</label>
-            <Input value={form.bio ?? ""} disabled={!editing} onChange={(e) => handleChange("bio", e.target.value)} />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="text-sm text-muted-foreground">School</label>
-            <Input value={form.school ?? ""} disabled={!editing} onChange={(e) => handleChange("school", e.target.value)} />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="text-sm text-muted-foreground">Location</label>
-            <Input value={form.location ?? ""} disabled={!editing} onChange={(e) => handleChange("location", e.target.value)} />
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="w-full ml-3">
-        <CardContent>
+              {fields.map((field) => (
+                <div key={field.name} className="flex flex-col gap-1">
+                  <label className="text-sm text-muted-foreground">{field.label}</label>
+                  <Input disabled={!editing} {...register(field.name)} />
+                </div>
+              ))}
+            </CardContent>
+          </form>
+        </Card>
+        <Card className="w-full ml-3">
+          <CardContent>
             Followers
             Post Impressions
-        </CardContent>
-      </Card>
-    </div>
+          </CardContent>
+        </Card>
+      </div>
       <div>
         <h2 className="text-lg font-medium mb-2">My Posts</h2>
         {myPosts.map((post, i) => (
