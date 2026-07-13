@@ -79,7 +79,14 @@ export default function ProfilePage() {
               {editing ? (
                 <Button type="submit">Save</Button>
               ) : (
-                <Button type="button" variant="outline" onClick={() => setEditing(true)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setEditing(true)
+                  }}
+                >
                   Edit
                 </Button>
               )}

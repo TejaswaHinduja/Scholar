@@ -1,4 +1,3 @@
-// File: app/api/upload-auth/route.ts
 import { getUploadAuthParams } from "@imagekit/next/server"
 
 export async function GET() {
